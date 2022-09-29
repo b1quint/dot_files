@@ -1,7 +1,6 @@
-
 # My .bashrc
 # by Bruno C. Quint
-# last update: 2018.Nov
+# last update: 2022.09
 #
 
 # If you get the error message:
@@ -27,7 +26,7 @@ LIGHT_GREEN="\[\033[1;32m\]"
  COLOR_NONE="\[\e[0m\]"
 
  # Changing colors of the terminal prompt
- export PS1="\[\e[00;37m\]\u@\h [\[\e[0m\]\[\e[00;32m\]\w\[\e[0m\]\[\e[00;37m\]] \n\\$\[\e[0m\] "
+ export PS1="${LIGHT_GRAY}\u@\h [${PURPLE}\w${COLOR_NONE}${LIGHT_GRAY}] \n\\$ ${COLOR_NONE} "
 
 
 ## Print nickname for git/hg/bzr/svn version control in CWD
@@ -63,20 +62,39 @@ function be_get_branch {
 ## Add branch to PS1 (based on $PS1 or $1), formatted as $2
 export GIT_PS1_SHOWDIRTYSTATE=yes
 export PS1="\$(be_get_branch "$2")${PS1}";
-export iraf="/iraf/iraf/"
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/.iraf/bin:$PATH"
-export PATH="$PATH:/opt/montage/bin"
+#export iraf="/iraf/iraf/"
+#export PATH="$HOME/bin:$PATH"
+#export PATH="$HOME/.iraf/bin:$PATH"
+#export PATH="$PATH:/opt/montage/bin"
 export PATH="$PATH:$HOME/.bin"
 export PATH="$PATH:$HOME/.local/bin"
-export PGPLOT_DIR="/opt/qfitsview/"
+#export PGPLOT_DIR="/opt/qfitsview/"
 
 ## For OSX 
 ## Make sure you run "$ brew install coreutils" first
 #alias ls='ls --color -h --group-directories-first'
 
 ## For GNU/Linux
-alias ls='gls --color -h --group-directories-first'
+# alias ls='gls --color -h --group-directories-first'
 
-# AstroConda
-source activate astroconda
+## ===========================================================================
+## Rubin USDF Bash
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# SLAC S3DF - source all files under ~/.profile.d
+if [[ -e ~/.profile.d && -n "$(ls -A ~/.profile.d/)" ]]; then
+  source <(cat $(find -L  ~/.profile.d -name '*.conf'))
+fi
