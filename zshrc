@@ -47,3 +47,15 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# >>> Start Zephyr Interface <<<
+source ~/.ts_planning_tool
+
+# >> Prepara for Docker <<
+# Run docker contained named "dev"
+alias run_dev_container="docker run -it --rm --name dev -v ~/GitHub/:/home/saluser/develop lsstts/develop-env:develop"
+
+# Stop "dev" container
+alias stop_dev_container="docker stop dev"
+
+# Pull corresponding dev image: lsstts/develop-env:develop
+alias pull_dev_image="docker pull lsstts/develop-env:develop"
